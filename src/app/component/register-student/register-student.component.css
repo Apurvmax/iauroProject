@@ -1,0 +1,19 @@
+.block{
+    display: block;
+}
+
+.btn{
+    position: relative;
+    top:50px;
+}
+
+.myform{
+    
+    left:100px;
+    width: 50%;
+}
+.myTable{
+    position: relative;
+    top:100px;
+    width: 100%;
+}
