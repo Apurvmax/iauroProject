@@ -6,7 +6,10 @@
     position: relative;
     top:50px;
 }
-
+.removebtn{
+   position: absolute;
+   bottom: 20px;
+}
 .myform{
     
     left:100px;

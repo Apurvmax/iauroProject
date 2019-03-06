@@ -10,18 +10,21 @@ import {MatNativeDateModule,
   MatDatepickerModule,MatIconModule,MatButtonModule,MatCheckboxModule,
    MatToolbarModule, MatCardModule,MatFormFieldModule,MatInputModule,
    MatRadioModule,MatListModule,MatTableModule} from  '@angular/material';
-
+import { SatPopoverModule } from '@ncstate/sat-popover';
+import {InlineeditComponent} from './component/inlineedit/inlineedit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterStudentComponent
+    RegisterStudentComponent,
+    InlineeditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    SatPopoverModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatIconModule,

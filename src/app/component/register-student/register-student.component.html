@@ -1,10 +1,14 @@
 <div class="myform">
-<mat-card-content>
-  <form class="my-form" (ngSubmit)="onSubmit(f.value)" #f="ngForm">
+<mat-card-content  *ngIf="showtable">
+  <form class="my-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    
+     <!--First Name-->
      <mat-form-field class="full-width block">
             <mat-label>First Name</mat-label>
             <input  matInput  placeholder="First name"  [(ngModel)]="firstName" name="firstName"  required>
          </mat-form-field>
+
+      <!--Last Name-->  
          <mat-form-field class="full-width block">
             <mat-label>Last Name</mat-label>
             <input  matInput  placeholder="Last Name"  [(ngModel)]="lastName" name="lastName"  required>
@@ -18,26 +22,57 @@
             <input  matInput  placeholder="Email" [(ngModel)]="email" name="email" required>
          </mat-form-field>
          <mat-radio-group [(ngModel)]="gender" name="gender">
+            <mat-label>Gender</mat-label>
             <mat-radio-button class="example-margin" value="Male">Male</mat-radio-button>
             <mat-radio-button class="example-margin" value="Female">Female</mat-radio-button>
             <mat-radio-button class="example-margin" value="Other">Other</mat-radio-button>
           </mat-radio-group>
-        <div class="btn">
+        <div class="btn" *ngIf="showtable">
           <button  type="submit" [disabled]="!f.valid"> Submit</button>
         </div>
   </form>
 </mat-card-content>
+<button mat-raised-button color="primary" class="btn" (click)="enableSubmit()" *ngIf="!showtable">Add New Entry</button>
 
 </div>
 
 
 <div>
-<table mat-table [dataSource]="dataSource" class="myTable" >
+<table mat-table [dataSource]="dataSource" class="myTable"   >
 
+    <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
     
     <ng-container matColumnDef="First Name">
       <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      <mat-cell *matCellDef="let element" [satPopoverAnchorFor]="p" (click)="p.open()">
+          <ng-container *ngIf="element.firstName">
+            {{element.firstName}}
+          </ng-container>
+          <span class="add-comment" *ngIf="!element.firstName">
+              {{element.firstName}}         
+           </span>
+
+          <sat-popover #p
+              hasBackdrop
+              xAlign="start"
+              yAlign="start"
+              (closed)="update(element,'firstName', $event)">
+            <inline-edit [value]="element.firstName"></inline-edit>
+          </sat-popover>
+        </mat-cell>
     </ng-container>
   
     <!-- Name Column -->
@@ -58,11 +93,16 @@
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
     <ng-container matColumnDef="Gender">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
         <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
       </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
   </table>
+  <div class="removebtn">
+      <button mat-raised-button color="primary" (click)="removeSelectedRows()">Remove Entry</button>
+  </div>
+
 </div>
