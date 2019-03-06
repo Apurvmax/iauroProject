@@ -19,9 +19,10 @@ export class RegisterStudentComponent implements OnInit {
   gender:string;
   dataSource = [];
   data=[];
+  isDatavalid:boolean=true;
   selection = new SelectionModel<any>(true, []);
   showtable:boolean=true;
-  displayedColumns=['select','First Name','Last Name','Address','Email','Gender']
+  displayedColumns=['select','First Name','Last Name','Address','Phone','Email','Gender']
   @ViewChild(MatTable) table:MatTable<any>;
   constructor() { }
    
@@ -31,9 +32,35 @@ export class RegisterStudentComponent implements OnInit {
   {
     this.showtable=false
     console.log("The Form value is",f);
-    this.dataSource.push(f["value"]);
-    this.table.renderRows();
+    console.log("The phone number is",f["value"]["phone"]);
+    console.log("The DataSource is",this.dataSource);
+
+    this.dataSource.forEach((element)=>{
+      this.isDatavalid=true;
+      if(element["phone"]===f["value"]["phone"])
+      {
+        if (confirm("Duplicate Record is not allowed")) {
+          this.isDatavalid=false;
+          this.showtable=true;
+          f.reset();
+        } 
+        else 
+        {
+          this.isDatavalid=false;
+          this.showtable=true;
+            console.log("The Cancel Button is Pressed");
+        }      
+      }
+      
+    })
+    if(this.isDatavalid)
+    {
+      console.log("The DataSource is",this.dataSource);
+      this.dataSource.push(f["value"]);
+      this.table.renderRows();
+    }
     f.reset();
+
     
   }
   isAllSelected() {
@@ -77,11 +104,15 @@ export class RegisterStudentComponent implements OnInit {
       
       if (updatedValue == null) { return; }
       // copy and mutate
-      const copy = this.dataSource.slice()
+      const copy = this.dataSource.slice();
+      this.dataSource.forEach((elementData)=>{
+        if(elementData.firstName===element.firstName)
+        {
+           elementData.firstName=updatedValue;
+        }
+      })
       console.log("The Copy is",copy)
-      // el.comment = comment;
-      console.log("The Field to be updaetd ",element.firstName);
-      element.firstName=updatedValue
+    
       //this.dataSource.update(copy);
     }
     

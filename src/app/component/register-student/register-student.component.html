@@ -21,6 +21,11 @@
             <mat-label>Email</mat-label>
             <input  matInput  placeholder="Email" [(ngModel)]="email" name="email" required>
          </mat-form-field>
+
+         <mat-form-field class="full-width block">
+          <mat-label>Phone</mat-label>
+          <input  matInput  placeholder="Email" [(ngModel)]="phone" name="phone" required>
+       </mat-form-field>
          <mat-radio-group [(ngModel)]="gender" name="gender">
             <mat-label>Gender</mat-label>
             <mat-radio-button class="example-margin" value="Male">Male</mat-radio-button>
@@ -32,7 +37,7 @@
         </div>
   </form>
 </mat-card-content>
-<button mat-raised-button color="primary" class="btn" (click)="enableSubmit()" *ngIf="!showtable">Add New Entry</button>
+<button mat-raised-button color="primary" class="btn" (click)="enableSubmit()" *ngIf="!showtable">Add New Form Entry</button>
 
 </div>
 
@@ -56,9 +61,9 @@
       </ng-container>
     
     <ng-container matColumnDef="First Name">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <mat-cell *matCellDef="let element" [satPopoverAnchorFor]="p" (click)="p.open()">
-          <ng-container *ngIf="element.firstName">
+      <th mat-header-cell *matHeaderCellDef>First Name </th>
+      <mat-cell *matCellDef="let element" [satPopoverAnchorFor]="p" (click)="p.open()" class="namecontainer">
+          <ng-container *ngIf="element.firstName" >
             {{element.firstName}}
           </ng-container>
           <span class="add-comment" *ngIf="!element.firstName">
@@ -75,23 +80,31 @@
         </mat-cell>
     </ng-container>
   
-    <!-- Name Column -->
+    <!-- Last Name Column -->
     <ng-container matColumnDef="Last Name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> Last Name </th>
       <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
     </ng-container>
   
-    <!-- Weight Column -->
+    <!-- Address Column -->
     <ng-container matColumnDef="Address">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <th mat-header-cell *matHeaderCellDef> Address </th>
       <td mat-cell *matCellDef="let element"> {{element.address}} </td>
     </ng-container>
   
-    <!-- Symbol Column -->
+    <!--Phone No-->
+    <ng-container matColumnDef="Phone">
+      <th mat-header-cell *matHeaderCellDef> Phone  </th>
+      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
     <ng-container matColumnDef="Email">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <th mat-header-cell *matHeaderCellDef> Email </th>
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
+
+    <!--Gender Column-->
     <ng-container matColumnDef="Gender">
         <th mat-header-cell *matHeaderCellDef> Gender </th>
         <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
@@ -102,7 +115,7 @@
 
   </table>
   <div class="removebtn">
-      <button mat-raised-button color="primary" (click)="removeSelectedRows()">Remove Entry</button>
+      <button mat-raised-button color="primary" (click)="removeSelectedRows()">Remove Row Entry</button>
   </div>
 
 </div>
